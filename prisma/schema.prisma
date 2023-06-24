@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  firebaseUid String    @unique
+  email       String    @unique
+  name        String    @default("new user")
+  payDay      Int       @default(25)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  balance     Balance[]
+}
+
+model Balance {
+  id          Int         @id @default(autoincrement())
+  amount      Int         @default(0)
+  title       String      @default("new item")
+  balnaceType BalanceType @default(INCOME)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id])
+}
+
+enum BalanceType {
+  INCOME
+  EXPENSE
+}
