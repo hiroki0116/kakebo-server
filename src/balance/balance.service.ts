@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BalanceDto } from './dto/balance.dto';
 import { Balance } from '@prisma/client';
+import { Msg } from 'src/auth/interfaces/auth.interface';
 
 @Injectable()
 export class BalanceService {
@@ -49,5 +50,19 @@ export class BalanceService {
         ...dto,
       },
     });
+  }
+
+  async deleteBalanceById(userId: number, id: number): Promise<Msg> {
+    const balance = await this.prisma.balance.findUnique({
+      where: { id },
+    });
+    if (!balance || balance.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    await this.prisma.balance.delete({
+      where: { id },
+    });
+    return { message: 'ok' };
   }
 }
