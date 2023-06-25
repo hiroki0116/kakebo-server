@@ -11,9 +11,18 @@ export class BalanceService {
     const balance = await this.prisma.balance.create({
       data: {
         userId,
+        title: dto.title,
         amount: dto.amount,
+        balnaceType: dto.balanceType,
       },
     });
     return balance;
+  }
+
+  async getAllBalance(userId: number): Promise<Balance[]> {
+    const balances = await this.prisma.balance.findMany({
+      where: { userId },
+    });
+    return balances;
   }
 }

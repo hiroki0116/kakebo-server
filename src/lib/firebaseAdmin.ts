@@ -10,12 +10,13 @@ type UserInfo = {
 export const createUserInFirebase = async (dto: AuthDto) => {
   const userInfo = {
     email: dto.email,
+    password: dto.password,
     emailVerified: false,
-    dispalyName: dto.name,
+    dispalyName: dto.name || 'new user',
   };
 
   try {
-    const firebaseUser = await admin.auth().createUser(userInfo);
+    const firebaseUser = await admin.auth().createUser({ ...userInfo });
     return { success: true, firebaseUser: firebaseUser.toJSON() };
   } catch (error) {
     if (error.errorInfo.code === 'auth/email-already-exists') {
