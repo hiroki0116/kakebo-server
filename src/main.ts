@@ -18,6 +18,7 @@ async function bootstrap() {
   admin.initializeApp({
     credential: admin.credential.cert(adminConfig),
   });
+  app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({
     credentials: false,
