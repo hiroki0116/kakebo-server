@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+  IsOptional,
+} from 'class-validator';
 
 export class AuthDto {
   @IsNotEmpty()
@@ -7,5 +13,14 @@ export class AuthDto {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(5)
+  password: string;
+
+  @IsString()
+  @IsOptional()
+  name: string;
+
+  @IsString()
+  @IsOptional()
   firebaseUid: string;
 }
