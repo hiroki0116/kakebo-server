@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateBalanceDto {
+export class BalanceDto {
   @IsNumber()
   @IsOptional()
   amount: number;

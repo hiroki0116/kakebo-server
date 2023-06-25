@@ -1,19 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateBalanceDto } from './dto/balance.dto';
+import { BalanceDto } from './dto/balance.dto';
 import { Balance } from '@prisma/client';
 
 @Injectable()
 export class BalanceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createBalance(userId: number, dto: CreateBalanceDto): Promise<Balance> {
+  async createBalance(userId: number, dto: BalanceDto): Promise<Balance> {
     const balance = await this.prisma.balance.create({
       data: {
         userId,
-        title: dto.title,
-        amount: dto.amount,
-        balnaceType: dto.balanceType,
+        ...dto,
       },
     });
     return balance;
@@ -24,5 +22,32 @@ export class BalanceService {
       where: { userId },
     });
     return balances;
+  }
+
+  async getBalanceById(userId: number, id: number): Promise<Balance> {
+    const balance = await this.prisma.balance.findFirst({
+      where: { id, userId },
+    });
+    return balance;
+  }
+
+  async updateBalanceById(
+    userId: number,
+    id: number,
+    dto: BalanceDto,
+  ): Promise<Balance> {
+    const balance = await this.prisma.balance.findUnique({
+      where: { id },
+    });
+    if (!balance || balance.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    return this.prisma.balance.update({
+      where: { id },
+      data: {
+        ...dto,
+      },
+    });
   }
 }
