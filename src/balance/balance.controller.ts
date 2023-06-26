@@ -13,7 +13,6 @@ import { BalanceService } from './balance.service';
 import { BalanceDto } from './dto/balance.dto';
 import { Request } from 'express';
 import { Balance } from '@prisma/client';
-import { Msg } from 'src/auth/interfaces/auth.interface';
 
 @Controller('balance')
 export class BalanceController {
@@ -57,7 +56,7 @@ export class BalanceController {
   deleteBalanceById(
     @Req() req: Request,
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<Msg> {
+  ): Promise<void> {
     const userId = req.user.id;
     return this.balanceService.deleteBalanceById(userId, id);
   }
