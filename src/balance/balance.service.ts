@@ -59,7 +59,7 @@ export class BalanceService {
       throw new Error('Unauthorized');
     }
 
-    this.prisma.balance.delete({
+    await this.prisma.balance.delete({
       where: { id },
     });
   }
