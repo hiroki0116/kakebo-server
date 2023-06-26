@@ -25,7 +25,7 @@ model Balance {
   id          Int         @id @default(autoincrement())
   amount      Int         @default(0)
   title       String      @default("new item")
-  balnaceType BalanceType @default(INCOME)
+  balanceType BalanceType @default(INCOME)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      Int
