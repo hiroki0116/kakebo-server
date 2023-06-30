@@ -16,8 +16,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
+    "db:restart": "docker compose down && docker compose up -d && sleep 3",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "pretest:integration": "npm run db:restart && dotenv -e .env.test -- prisma migrate reset --force",
+    "test:integration": "dotenv -e .env.test -- jest -i --no-cache --watch --config jest-integration.json"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -29,6 +32,7 @@
     "@prisma/client": "^4.16.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv-cli": "^7.2.1",
     "firebase-admin": "^11.9.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",

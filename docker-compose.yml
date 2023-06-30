@@ -8,8 +8,11 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: kakebo
-    restart: always
-    networks:
-      - kakebo
-networks:
-  kakebo:
+  test-postgres:
+    image: postgres:14.4-alpine
+    ports:
+      - 5431:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kakebo-test

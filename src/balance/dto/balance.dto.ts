@@ -11,7 +11,7 @@ export class BalanceDto {
 
   @IsString()
   @IsOptional()
-  balanceType: BalanceType;
+  balanceType?: BalanceType;
 }
 
 enum BalanceType {
