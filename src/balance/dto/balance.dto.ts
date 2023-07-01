@@ -11,10 +11,5 @@ export class BalanceDto {
 
   @IsString()
   @IsOptional()
-  balanceType?: BalanceType;
-}
-
-enum BalanceType {
-  INCOME = 'INCOME',
-  EXPENSE = 'EXPENSE',
+  balanceType?: 'INCOME' | 'EXPENSE';
 }
